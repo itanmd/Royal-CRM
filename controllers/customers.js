@@ -10,7 +10,7 @@ module.exports = {
             name: joi.string().required().min(2).max(200),
             phone: joi.string().required().regex(/^[0-9]{8,11}$/),
             email: joi.string().required().regex(/^[^@]+@[^@]+$/),
-            countryInputHtml: joi.number().required(),
+            countryId: joi.number().required(),
         });
 
         const { error, value } = schema.validate(reqBody);
@@ -31,7 +31,7 @@ module.exports = {
                     reqBody.name,
                     reqBody.phone,
                     reqBody.email,
-                    reqBody.countryInputHtml
+                    reqBody.countryId
                 ]
             );
         }
@@ -73,11 +73,11 @@ module.exports = {
 
         try {
             const result = await database.query(sql);
-            res.send(result[0]);
+            res.json(result[0]);
         }
         catch (err) {
             console.log(err);
-            res.send(err);
+            res.json(err);
         }
     },
 
@@ -136,8 +136,8 @@ module.exports = {
                     searchQuery,
                 ]
             );
-            
-            res.send(result[0]);
+
+            res.json(result[0]);
         } catch (err) {
             res.status(400).send(`search error: ${err}`);
             throw error;

@@ -5,6 +5,7 @@ var logger = require('morgan');
 const createError = require('http-errors');
 
 const auth = require('./middleware/auth');
+const headers = require('./middleware/headers')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,6 +21,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client')));
 
+
+app.use(headers);
 app.use('/', indexRouter);
 app.use('/users', auth, usersRouter);
 app.use('/customers', auth, customersRouter);
