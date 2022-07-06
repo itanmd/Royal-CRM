@@ -22,14 +22,12 @@ module.exports = {
             });
 
             stream.on('finish', function () {
-                // res.send(`Success. File at: ${filePath}`);
-                res.set('Access-Control-Allow-Origin', '*');
-                // { path: filePath }
                 res.json({ name: fileName });
             });
         }
         catch (err) {
             res.status(400).send('Error');
+            // throw err;
         }
     },
 }
