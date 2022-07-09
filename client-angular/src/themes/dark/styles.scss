@@ -1,9 +1,15 @@
+@import "../common/bootstrap-variables";
 @import "../common/bootstrap";
 
 .dark-theme {
     background-color: #141719;
 
     & {
-        color: #fff;
+        table th,
+        table td,
+        i {
+            color: #fff;
+        }
+       
     }
 }
