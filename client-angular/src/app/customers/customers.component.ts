@@ -1,7 +1,8 @@
 import { Component, NgModule, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../core/api.service';
-import { Customer, CustomerSort, FilePath, sortColumn } from '../shared/types';
+import { Country, Customer, CustomerSort, FilePath, sortColumn } from '../shared/types';
 
 @Component({
     selector: 'app-customers',
@@ -11,13 +12,47 @@ import { Customer, CustomerSort, FilePath, sortColumn } from '../shared/types';
 export class CustomersComponent implements OnInit {
 
     customers!: Array<Customer>;
+    countries!: Array<Country>;
     searchFieldValue!: string;
     searchTerm!: string;
     tableSort!: CustomerSort;
+    showForm = false;
+
+    customerForm = new FormGroup({
+        name: new FormControl('', {
+            validators: Validators.required
+        }),
+        email: new FormControl('', {
+            validators: [Validators.required, Validators.email]
+        }),
+        phone: new FormControl('', {
+            validators: Validators.required
+        }),
+        country_id: new FormControl('', {
+            validators: Validators.required
+        })
+    });
+
+    onSumbit() {
+        if (!this.customerForm.valid) {
+            return;
+        }
+
+        const customer = this.customerForm.value;
+
+        // this.apiService.addCustomer(this.customerForm.value).subscribe({
+
+        // })
+    }
+
+    toggleForm() {
+        this.showForm = !this.showForm;
+    }
 
     constructor(private apiService: ApiService) { }
 
     ngOnInit(): void {
+        this.getCountries();
         this.getCustomers();
 
         this.tableSort = {
@@ -31,6 +66,13 @@ export class CustomersComponent implements OnInit {
             next: (data: Array<Customer>) => { this.customers = data },
             error: (err) => console.error(err),
             // complete: () => console.log(`complete`)
+        })
+    }
+
+    getCountries() {
+        this.apiService.getCountries().subscribe({
+            next: (data: Array<Country>) => { this.countries = data },
+            error: (err) => console.error(err)
         })
     }
 
@@ -64,17 +106,7 @@ export class CustomersComponent implements OnInit {
     }
 
     sortCustomers(column: sortColumn) {
-        // let direction: sortDirection = this.tableSort[column];
-        // if (direction === 'Default' || direction === 'DESC') {
-        //     direction = 'ASC';
-        // }
-        // else if (direction === 'ASC') {
-        //     direction = 'DESC';
-        // }
-
-        // this.tableSort[column] = direction;
-
-        if(this.tableSort.column === column) {
+        if (this.tableSort.column === column) {
             this.tableSort.dirAsc = !this.tableSort.dirAsc;
         }
         else {
