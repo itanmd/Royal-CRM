@@ -1,11 +1,18 @@
 export interface Customer {
-    id?: number;
-    name?: string;
-    phone?: string;
-    email?: string;
-    country_id?: string;
-    country_name?: string;
-    country_code?: string;
+    id: number;
+    name: string;
+    phone: string;
+    email: string;
+    country_id: number;
+    country_name: string;
+    country_code: string;
+}
+
+export interface AddCustomer {
+    name?: string | null;
+    phone?: string | null;
+    email?: string | null;
+    country_id?: number | null;
 }
 
 export interface Country {
@@ -30,4 +37,12 @@ export type themeValues = 'light-theme' | 'dark-theme';
 export interface Theme {
     title: string;
     value: themeValues;
+}
+
+export interface Product {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    image: string | null;
 }
