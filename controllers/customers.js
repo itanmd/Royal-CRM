@@ -10,7 +10,7 @@ module.exports = {
             name: joi.string().required().min(2).max(200),
             phone: joi.string().required().regex(/^[0-9]{8,11}$/),
             email: joi.string().required().regex(/^[^@]+@[^@]+$/),
-            countryId: joi.number().required(),
+            country_id: joi.number().required(),
         });
 
         const { error, value } = schema.validate(reqBody);
