@@ -2,12 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AddCustomer, Country, Customer, FilePath, Product } from '../shared/types';
+import { AddCustomer, Country, Customer, FilePath, Login, Product, User } from '../shared/types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ApiService {
+
+    private token = '';
+
+    setToken(value: string) {
+        this.token = value;
+    }
 
     constructor(private http: HttpClient) { }
 
@@ -22,11 +28,6 @@ export class ApiService {
 
     exportCustomers(): Observable<FilePath> {
         return this.http.get<FilePath>(`${environment.serverUrl}/customers/export`);
-    }
-
-    
-    exportProducts(): Observable<FilePath> {
-        return this.http.get<FilePath>(`${environment.serverUrl}/products/export`);
     }
 
     findCustomer(searchTerm: string): Observable<Array<Customer>> {
@@ -47,5 +48,17 @@ export class ApiService {
 
     getProductsList(): Observable<Array<Product>> {
         return this.http.get<Array<Product>>(`${environment.serverUrl}/products`);
+    }
+
+    exportProducts(): Observable<FilePath> {
+        return this.http.get<FilePath>(`${environment.serverUrl}/products/export`);
+    }
+
+    login(details: Login): Observable<User> {
+        return this.http.post<User>(
+            `${environment.serverUrl}/login`,
+            details,
+            { headers: { 'Content-Type': 'application/json' } }
+        );
     }
 }
