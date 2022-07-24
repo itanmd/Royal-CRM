@@ -2,8 +2,7 @@
     Customers <small class="text-secondary">({{customersTotal()}})</small>
 </h2> -->
 
-<app-page-title [totalItems]="customersTotal()">
-    [title]="'Customers'"></app-page-title>
+<app-page-title [totalItems]="customersTotal()" [title]="'Customers'"></app-page-title>
 
 <div class="section-bg p-3">
 
@@ -18,10 +17,6 @@
             </div>
         </div>
         <div class="p-2">
-            <!-- <button (click)="exportCustomersData()" class="btn btn-primary">
-                <i class="bi-download pe-2"></i>
-                Export
-            </button> -->
             <app-export (buttonClicked)="exportCustomersData()"></app-export>
         </div>
         <div class="p-2">
@@ -57,8 +52,6 @@
                 class="btn btn-primary">Add</button>
         </form>
     </div>
-
-    
 
 
 
